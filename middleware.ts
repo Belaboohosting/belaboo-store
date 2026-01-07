@@ -17,8 +17,8 @@ export function middleware(request: NextRequest) {
     // For local development, this header might be missing.
     const country = request.headers.get('x-vercel-ip-country') || 'GB'; // Default to GB for local ease
 
-    // Only allow United Kingdom (GB)
-    if (country !== 'GB' && !pathname.startsWith('/api')) {
+    // Only allow United Kingdom (GB) and US for testing
+    if (country !== 'GB' && country !== 'US' && !pathname.startsWith('/api')) {
         // If we want to block the UI for non-UK users
         // For now, let's just log it. In a real deployment, we'd redirect.
         console.log(`Blocked non-UK visitor from: ${country}`);
