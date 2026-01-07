@@ -6,18 +6,24 @@ const geminiKey = process.env.GEMINI_API_KEY || "";
 const genAI = geminiKey ? new GoogleGenerativeAI(geminiKey) : null;
 
 export async function POST(req: Request) {
+    console.log("🚀 Generation Request Started");
     try {
         if (!genAI) {
+            console.error("❌ Gemini Key Missing or Client Null");
             return NextResponse.json({ error: "Gemini API is not configured" }, { status: 500 });
         }
 
-        const { prompt, style, colorPalette, transactionId, generationId } = await req.json();
+        const body = await req.json();
+        console.log("📝 Request Body Parsed");
+        const { prompt, style, colorPalette, transactionId, generationId } = body;
 
         if (!prompt || !transactionId) {
+            console.error("❌ Missing prompt or transactionId");
             return NextResponse.json({ error: "Prompt and Transaction ID are required" }, { status: 400 });
         }
 
         if (!supabaseAdmin) {
+            console.error("❌ Supabase Admin Client Null");
             return NextResponse.json({ error: "Server Configuration Error: Database not connected" }, { status: 500 });
         }
 
