@@ -17,6 +17,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Prompt and Transaction ID are required" }, { status: 400 });
         }
 
+        if (!supabaseAdmin) {
+            return NextResponse.json({ error: "Server Configuration Error: Database not connected" }, { status: 500 });
+        }
+
         // --- RATE LIMITING ---
         // Limit to 5 generations per hour per transactionId
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();

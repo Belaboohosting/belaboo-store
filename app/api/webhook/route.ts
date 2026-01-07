@@ -18,6 +18,16 @@ export async function POST(req: Request) {
 
     let eventBytes: Stripe.Event;
 
+    if (!supabaseAdmin) {
+        console.error("❌ Database connection failed");
+        return NextResponse.json({ error: "Database not connected" }, { status: 500 });
+    }
+
+    if (!stripe) {
+        console.error("❌ Stripe configuration missing");
+        return NextResponse.json({ error: "Stripe not connected" }, { status: 500 });
+    }
+
     try {
         console.log("Using secret prefix:", webhookSecret.slice(0, 10));
         eventBytes = stripe.webhooks.constructEvent(body, signature, webhookSecret);
@@ -46,7 +56,7 @@ export async function POST(req: Request) {
                 stripe_session_id: session.id,
                 status: "paid",
                 cart_items: cartItems,
-                shipping_address: session.shipping_details || {},
+                shipping_address: (session as any).shipping_details || {},
             }).select("order_id").single();
 
             if (orderError) throw orderError;
