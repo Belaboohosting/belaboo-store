@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #000080;
+  --color-pink: #FF69B4;
+  --color-green: #4CBB17;
+  --color-white: #FFFFFF;
+
+  --font-inter: "Inter", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+
+  --radius-pill: 9999px;
+
+  --shadow-preppy: 4px 4px 0px 0px rgba(0, 0, 128, 0.1);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #000080;
+  /* Navy default text */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+}
+
+.btn-pill {
+  @apply rounded-full px-8 py-3 font-bold transition-transform hover:-translate-y-1 active:scale-95 border-2;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.hover-lift {
+  @apply transition-transform hover:-translate-y-1 active:scale-95 duration-300;
+}
